@@ -1,0 +1,362 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	
+	<groupId>com.github.vindell</groupId>
+	<artifactId>struts2-fastjson-plugin</artifactId>
+	<!-- 版本随着 struts2-core 版本变更 -->
+	<version>2.5.10.1</version>
+	
+	<description>基于struts2 + FastJSON 的扩展实现</description>
+	
+	<licenses>
+        <license>
+            <name>The Apache License 2.0</name>
+            <url>http://www.apache.org/licenses/LICENSE-2.0</url>
+        </license>
+    </licenses>
+
+	<!-- 组织信息  -->
+  	<organization>
+    	<name>Jeefw</name>
+    	<url>www.jeefw.com</url>
+  	</organization>
+  
+  	<!-- 开发者信息  -->
+    <developers>
+        <developer>
+        	<id>001</id>
+            <name>vindell</name>
+            <email>hnxyhcwdl1003@163.com</email>
+            <url>https://github.com/vindell</url>
+        </developer>
+    </developers> 
+	
+    <build>
+		<pluginManagement>
+			<plugins>
+				<!-- 编译插件：编译主代码至主输出目录 -->  
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-compiler-plugin</artifactId>
+					<version>3.5.1</version> 
+					<!-- 设置源文件编码方式 -->  
+					<configuration>
+						<defaultLibBundleDir>lib</defaultLibBundleDir>
+						<!-- 源代码编译版本 -->
+						<source>1.6</source>
+						<!-- 目标平台编译版本 -->
+						<target>1.6</target>
+						<!-- 字符集编码 -->
+						<encoding>${project.build.sourceEncoding}</encoding>
+						<!--  -->
+						<maxmem>512M</maxmem>
+					</configuration>
+				</plugin>
+				<!-- 资源插件：复制主资源文件至主输出目录 -->
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-resources-plugin</artifactId>
+					<version>2.7</version>
+					<!-- 解决资源文件的编码问题 -->  
+					<configuration>
+						<!-- 字符集编码 -->
+						<encoding>${project.build.sourceEncoding}</encoding>
+					</configuration>
+					<!-- 复制测试资源文件至测试输出目录复制resources到test-classess -->
+					<executions>
+						<execution>
+							<id>copy-resources</id>
+							<phase>validate</phase>
+							<goals>
+								<goal>copy-resources</goal>
+							</goals>
+							<configuration>
+								<outputDirectory>${basedir}/target/test-classes</outputDirectory>
+								<resources>
+									<resource>
+										<directory>src/main/resources</directory>
+										<!--<filtering>true</filtering>
+									--></resource>
+								</resources>
+							</configuration>
+						</execution>
+					</executions>
+					<dependencies>
+			            <dependency>
+			                <groupId>org.apache.maven.shared</groupId>
+			                <artifactId>maven-filtering</artifactId>
+			                <version>1.3</version>
+			            </dependency>
+			         </dependencies>
+				</plugin>
+				<!-- 单元测试插件 ：执行测试用例-->  
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-surefire-plugin</artifactId>
+					<version>2.19.1</version>
+					<configuration>
+						<!-- 跳过单元测试 -->
+						<skip>true</skip>
+						<skipTests>true</skipTests>
+						<!--
+							forkMode 可设置值有 “never”， “once”， “always” 和 “pertest”。
+							pretest： 每一个测试创建一个新进程，为每个测试创建新的JVM是单独测试的最彻底方式，但也是最慢的，不适合hudson上持续回归。
+							once：在一个进程中进行所有测试。once为默认设置，在Hudson上持续回归时建议使用默认设置。
+							always：在一个进程中并行的运行脚本，Junit4.7以上版本才可以使用，surefire的版本要在2.6以上提供这个功能，其中 threadCount：执行时，指定可分配的线程数量。只和参数parallel配合使用有效。默认：5。
+						 -->
+						<forkMode>once</forkMode>
+						<argLine>-Xmx1024m -XX:PermSize=256m -XX:MaxPermSize=256m</argLine>  
+						<additionalClasspathElements>  
+			                <additionalClasspathElement>  
+			                    ${basedir}/target/test-classes  
+			                </additionalClasspathElement>  
+			            </additionalClasspathElements>  
+			            <includes>  
+			                <include>**/*Test.java</include> 
+			            </includes> 
+                        <excludes>
+                            <exclude>**/TestBean.java</exclude>
+                        </excludes>
+					</configuration>					
+				</plugin>
+				<!-- jar包生成插件 ：创建项目jar包--> 
+				<plugin>  					 
+					<groupId>org.apache.maven.plugins</groupId>  
+					<artifactId>maven-jar-plugin</artifactId>  
+					<version>2.6</version>  
+					<!-- 打包jar文件时，配置manifest文件，加入lib包的jar依赖 -->  
+					<configuration>  
+	                    <archive>  
+	                        <manifest>  
+	                            <addClasspath>true</addClasspath>  
+	                            <classpathPrefix>lib/</classpathPrefix>  
+	                            <mainClass>.....Main</mainClass>  
+	                        </manifest>  
+	                    </archive>  
+	                </configuration>  
+				</plugin> 
+				<!-- 安装插件：将项目输出构件安装到本地仓库 --> 
+				<plugin>  					 
+					<groupId>org.apache.maven.plugins</groupId>  
+					<artifactId>maven-install-plugin</artifactId>  
+					<version>2.5.2</version>  
+				</plugin> 
+				<!-- 发布插件 ：将项目输出构件部署到远程仓库--> 
+				<plugin>  
+		            <groupId>org.apache.maven.plugins</groupId>  
+		            <artifactId>maven-deploy-plugin</artifactId>  
+		            <version>2.8.2</version>  
+		        </plugin>
+		        <!-- release插件: 自动进行工程版本升级 -->
+	            <plugin>
+	                <groupId>org.apache.maven.plugins</groupId>
+	                <artifactId>maven-release-plugin</artifactId>
+	                <version>2.5.3</version>
+	                <configuration>
+	                    <!-- 设置分支跟里程碑的url -->
+	                    <branchBase>svn://121.43.110.87/jeefw/jeefw-desktop/branches</branchBase>
+	                    <tagBase>svn://121.43.110.87/jeefw/jeefw-desktop/tags</tagBase>
+	                </configuration>
+	            </plugin>	
+		        <!-- 签名插件 ：自动完成GPG签名--> 
+		        <plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-gpg-plugin</artifactId>
+					<version>1.6</version>
+					<executions>
+					    <execution>
+							<id>sign-artifacts</id>
+							<phase>verify</phase>
+							<goals>
+							     <goal>sign</goal>
+							</goals>
+					    </execution>
+					</executions>
+				</plugin>	
+				<!-- 源码插件:发布时自动将源码同时发布 -->				
+				<plugin>
+					 <groupId>org.apache.maven.plugins</groupId>
+					 <artifactId>maven-source-plugin</artifactId>
+					 <version>3.0.0</version> 
+					 <!-- 打包source文件为jar文件 -->
+					 <configuration>  
+					 	 <testFailureIgnore>true</testFailureIgnore>
+	                     <attach>true</attach>  
+	                     <encoding>UTF-8</encoding>  
+	                 </configuration> 
+					 <executions>
+						 <execution>
+							 <id>attach-sources</id>
+							 <phase>package</phase>
+							 <goals>
+								<goal>jar-no-fork</goal>
+							 </goals>
+						 </execution>
+					 </executions>
+				</plugin>
+				<!-- 文档插件:发布时自动生成文档 -->	
+				<plugin>  
+		            <groupId>org.apache.maven.plugins</groupId>  
+		            <artifactId>maven-javadoc-plugin</artifactId>  
+		            <version>2.10.3</version> 
+					<configuration>  
+	                    <aggregate>true</aggregate>  
+                       	<charset>UTF-8</charset> 
+                        <encoding>UTF-8</encoding> 
+                        <docencoding>UTF-8</docencoding> 
+	                </configuration>
+					<executions>
+						<execution>
+							<id>attach-javadocs</id>
+							<phase>package</phase>
+							<goals>
+								<goal>jar</goal>
+							</goals>
+						</execution>
+					</executions>				
+		        </plugin>
+			</plugins>
+		</pluginManagement>
+		<plugins>
+			<!-- 资源插件：复制主资源文件至主输出目录 -->
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-resources-plugin</artifactId>
+			</plugin>
+			<!-- 编译插件：编译主代码至主输出目录 -->  
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+			</plugin>
+			<!-- 单元测试插件 ：执行测试用例 -->
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-surefire-plugin</artifactId>
+			</plugin> 
+			<!-- jar包生成插件 ：创建项目jar包 -->
+			<plugin>  					 
+				<groupId>org.apache.maven.plugins</groupId>  
+				<artifactId>maven-jar-plugin</artifactId>  
+			</plugin> 
+			<!-- 安装插件：将项目输出构件安装到本地仓库 --> 
+			<plugin>  					 
+				<groupId>org.apache.maven.plugins</groupId>  
+				<artifactId>maven-install-plugin</artifactId>  
+			</plugin> 
+			<!-- 发布插件 ：将项目输出构件部署到远程仓库--> 
+			<plugin>  
+	            <groupId>org.apache.maven.plugins</groupId>  
+	            <artifactId>maven-deploy-plugin</artifactId>  
+	        </plugin>	
+			<!-- 源码插件:发布时自动将源码同时发布 -->				
+			<plugin>
+				 <groupId>org.apache.maven.plugins</groupId>
+				 <artifactId>maven-source-plugin</artifactId>
+			</plugin>
+		</plugins>
+	</build>
+	
+    <properties>
+    	<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+ 		<junit.version>4.12</junit.version>
+ 		<servlet-api.version>3.0.1</servlet-api.version>
+ 		<slf4j.version>1.7.21</slf4j.version>
+ 		<fastjson.version>1.2.31</fastjson.version>
+		<struts2.version>2.5.10.1</struts2.version>
+	</properties>
+	
+	<dependencyManagement>
+		<dependencies>
+			
+			<!-- ######################测试工具包###################### -->
+			
+			<!--junit : Junit测试是程序员测试，即白盒测试 -->
+			<dependency>
+				<groupId>junit</groupId>
+				<artifactId>junit</artifactId>
+				<version>${junit.version}</version>
+			</dependency>
+			
+			<!-- ######################Servlet相关基础包###################### -->
+			
+			<!-- servlet 基础依赖包 -->
+			<dependency>
+				<groupId>javax.servlet</groupId>
+				<artifactId>javax.servlet-api</artifactId>
+				<version>${servlet-api.version}</version>
+			</dependency>
+			
+			<!-- ######################日志组件工具包###################### -->
+			
+			<!-- SLF4J，即简单日志门面（Simple Logging Facade for Java），不是具体的日志解决方案，它只服务于各种各样
+			 的日志系统。按照官方的说法，SLF4J是一个用于日志系统的简单Facade，允许最终用户在部署其应用时使用其所希望的日志系统。 -->
+			<dependency>
+				<groupId>org.slf4j</groupId>
+				<artifactId>slf4j-api</artifactId>
+				<version>${slf4j.version}</version>
+			</dependency>
+			
+			<dependency>
+				<groupId>com.alibaba</groupId>
+				<artifactId>fastjson</artifactId>
+				<version>${fastjson.version}</version>
+			</dependency>
+			
+			<!-- ###################### Struts2.x 核心框架  ###################### -->
+			
+			<dependency>
+				<groupId>org.apache.struts</groupId>
+				<artifactId>struts2-core</artifactId>
+				<version>${struts2.version}</version>
+			</dependency>
+			
+		</dependencies>
+	</dependencyManagement>	
+	
+	<dependencies>
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.slf4j</groupId>
+			<artifactId>slf4j-api</artifactId>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>javax.servlet</groupId>
+			<artifactId>javax.servlet-api</artifactId>
+			<scope>provided</scope>
+		</dependency>
+		
+		<dependency>
+			<groupId>com.alibaba</groupId>
+			<artifactId>fastjson</artifactId>
+		</dependency>
+	
+		<!-- ###################### Struts2.x 核心框架  ###################### -->
+		
+		<dependency>
+            <groupId>org.apache.struts</groupId>
+            <artifactId>struts2-core</artifactId>
+            <exclusions>
+				<exclusion>
+					<groupId>com.sun</groupId>
+					<artifactId>tools</artifactId>
+				</exclusion>
+				<exclusion>
+					<artifactId>asm</artifactId>
+					<groupId>asm</groupId>
+				</exclusion>
+				<exclusion>
+					<artifactId>asm-commons</artifactId>
+					<groupId>asm</groupId>
+				</exclusion>
+            </exclusions>
+        </dependency>
+				
+	</dependencies>
+
+</project>
