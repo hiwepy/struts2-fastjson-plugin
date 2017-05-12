@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE struts PUBLIC
+    "-//Apache Software Foundation//DTD Struts Configuration 2.5//EN"
+    "http://struts.apache.org/dtds/struts-2.5.dtd">
+<struts>
+
+	<package name="fastjson-default" extends="struts-default" abstract="true" strict-method-invocation="true">
+		<!-- 自定义返回结果类型 -->
+		<result-types>
+    		<result-type name="fastjson" class="org.apache.struts2.fastjson.FastJSONResult"/>
+        </result-types>
+		<global-results>
+			<result name="data" type="fastjson">  
+				<!-- excludeNullProperties 参数：表示是否去掉空值， 默认值是false，如果设置为true会自动将为空的值过滤，只输出不为空的值。-->
+				<param name="excludeNullProperties">true</param>
+				<!-- 表示是否忽略等级，也就是继承关系，比如：ProuctsAction继承于 BaseAction，那么
+					ProuctsAction中返回的 json 字符串默认是不会包含父类 BaseAction 的属性值，ignoreHierarchy 值默认为 true，
+					设置为 false 后会将父类和子类的属性一起返回-->
+				<param name="ignoreHierarchy" >false</param> 
+                <param name="root">data</param>
+         	</result> 
+		</global-results>
+
+	</package>
+	
+</struts>
