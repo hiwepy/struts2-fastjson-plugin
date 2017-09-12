@@ -50,15 +50,12 @@ public abstract class ReflectionUtils {
 
 	/**
 	 * 
-	 *@描述		：循环向上转型, 获取对象的DeclaredField,	 并强制设置为可访问
-	 *@创建人	: wandalong
-	 *@创建时间	: Mar 11, 20163:31:58 PM
-	 *@param target
-	 *@param name
-	 *@return
-	 *@修改人	: 
-	 *@修改时间	: 
-	 *@修改描述	:
+	 * @description	： 循环向上转型, 获取对象的DeclaredField,并强制设置为可访问
+	 * @author 		： <a href="https://github.com/vindell">vindell</a>
+	 * @date 		：2017年9月12日 下午10:57:19
+	 * @param target
+	 * @param name
+	 * @return
 	 */
 	public static Field getAccessibleField(Object target, String name) {
 		Field field = getField(target, name);
@@ -106,15 +103,12 @@ public abstract class ReflectionUtils {
 	
 	/**
 	 * 
-	 *@描述		：获取target对象名称为name的Field
-	 *@创建人	: wandalong
-	 *@创建时间	: Mar 11, 20163:25:11 PM
-	 *@param target
-	 *@param name
-	 *@return
-	 *@修改人	: 
-	 *@修改时间	: 
-	 *@修改描述	:
+	 * @description	： 获取target对象名称为name的Field
+	 * @author 		： <a href="https://github.com/vindell">vindell</a>
+	 * @date 		：2017年9月12日 下午10:57:31
+	 * @param target
+	 * @param name
+	 * @return
 	 */
 	public static Field getField(Object target, String name) {
 		for (Class<?> superClass = target.getClass(); superClass != Object.class; superClass = superClass.getSuperclass()) {
@@ -199,15 +193,12 @@ public abstract class ReflectionUtils {
 	
 	/**
 	 * 
-	 *@描述		：直接读取对象属性值, 无视private/protected修饰符, 不经过getter函数
-	 *@创建人	: wandalong
-	 *@创建时间	: Mar 11, 20163:25:52 PM
-	 *@param fieldName
-	 *@param target
-	 *@return
-	 *@修改人	: 
-	 *@修改时间	: 
-	 *@修改描述	:
+	 * @description	： 直接读取对象属性值, 无视private/protected修饰符, 不经过getter函数
+	 * @author 		： <a href="https://github.com/vindell">vindell</a>
+	 * @date 		：2017年9月12日 下午10:57:40
+	 * @param fieldName
+	 * @param target
+	 * @return
 	 */
 	public static Object getField(String fieldName,Object target) {
 		Field field = getField(target, fieldName);
@@ -243,16 +234,13 @@ public abstract class ReflectionUtils {
 	
 	/**
 	 * 
-	 *@描述		：循环向上转型, 获取对象的DeclaredMethod,并强制设置为可访问.如向上转型到Object仍无法找到, 返回null.
-	 *@创建人	: wandalong
-	 *@创建时间	: Mar 4, 20163:23:45 PM
-	 *@param target
-	 *@param name
-	 *@param paramTypes
-	 *@return
-	 *@修改人	: 
-	 *@修改时间	: 
-	 *@修改描述	:
+	 * @description	： 循环向上转型, 获取对象的DeclaredMethod,并强制设置为可访问.如向上转型到Object仍无法找到, 返回null.
+	 * @author 		： <a href="https://github.com/vindell">vindell</a>
+	 * @date 		：2017年9月12日 下午10:58:06
+	 * @param target
+	 * @param name
+	 * @param paramTypes
+	 * @return
 	 */
 	public static Method getMethod(Object target,String name,Class<?>... paramTypes) {
 		return getMethod(target.getClass(),name,paramTypes);
@@ -260,16 +248,13 @@ public abstract class ReflectionUtils {
 	
 	/**
 	 * 
-	 *@描述		：循环向上转型, 获取对象的DeclaredMethod,并强制设置为可访问.
-	 *@创建人	: wandalong
-	 *@创建时间	: Mar 11, 20163:42:51 PM
-	 *@param target
-	 *@param name
-	 *@param paramTypes
-	 *@return
-	 *@修改人	: 
-	 *@修改时间	: 
-	 *@修改描述	:
+	 * @description	： 循环向上转型, 获取对象的DeclaredMethod,并强制设置为可访问.
+	 * @author 		： <a href="https://github.com/vindell">vindell</a>
+	 * @date 		：2017年9月12日 下午10:57:57
+	 * @param target
+	 * @param name
+	 * @param paramTypes
+	 * @return
 	 */
 	public static Method getAccessibleMethod(Object target,String name,Class<?>... paramTypes ) {
 		Method method =  getMethod(target.getClass(),name,paramTypes);
@@ -532,15 +517,12 @@ public abstract class ReflectionUtils {
 	
 	/**
 	 * 
-	 *@描述		：判断clazz类是否实现了某个接口
-	 *@创建人	: wandalong
-	 *@创建时间	: Mar 11, 20163:22:22 PM
-	 *@param clazz
-	 *@param targetInterface : 是否实现的接口
-	 *@return
-	 *@修改人	: 
-	 *@修改时间	: 
-	 *@修改描述	:
+	 * @description	： 判断clazz类是否实现了某个接口
+	 * @author 		： <a href="https://github.com/vindell">vindell</a>
+	 * @date 		：2017年9月12日 下午10:57:49
+	 * @param clazz
+	 * @param targetInterface
+	 * @return
 	 */
 	public static boolean isInterface(Class<?> clazz, Class<?> targetInterface) {
 		Class<?>[] face = clazz.getInterfaces();
