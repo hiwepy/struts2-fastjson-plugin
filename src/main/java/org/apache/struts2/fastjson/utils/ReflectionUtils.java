@@ -51,7 +51,7 @@ public abstract class ReflectionUtils {
 	/**
 	 * 
 	 * @description	： 循环向上转型, 获取对象的DeclaredField,并强制设置为可访问
-	 * @author 		： <a href="https://github.com/vindell">vindell</a>
+	 * @author 		： <a href="https://github.com/hiwepy">hiwepy</a>
 	 * @date 		：2017年9月12日 下午10:57:19
 	 * @param target
 	 * @param name
@@ -104,7 +104,7 @@ public abstract class ReflectionUtils {
 	/**
 	 * 
 	 * @description	： 获取target对象名称为name的Field
-	 * @author 		： <a href="https://github.com/vindell">vindell</a>
+	 * @author 		： <a href="https://github.com/hiwepy">hiwepy</a>
 	 * @date 		：2017年9月12日 下午10:57:31
 	 * @param target
 	 * @param name
@@ -194,7 +194,7 @@ public abstract class ReflectionUtils {
 	/**
 	 * 
 	 * @description	： 直接读取对象属性值, 无视private/protected修饰符, 不经过getter函数
-	 * @author 		： <a href="https://github.com/vindell">vindell</a>
+	 * @author 		： <a href="https://github.com/hiwepy">hiwepy</a>
 	 * @date 		：2017年9月12日 下午10:57:40
 	 * @param fieldName
 	 * @param target
@@ -235,7 +235,7 @@ public abstract class ReflectionUtils {
 	/**
 	 * 
 	 * @description	： 循环向上转型, 获取对象的DeclaredMethod,并强制设置为可访问.如向上转型到Object仍无法找到, 返回null.
-	 * @author 		： <a href="https://github.com/vindell">vindell</a>
+	 * @author 		： <a href="https://github.com/hiwepy">hiwepy</a>
 	 * @date 		：2017年9月12日 下午10:58:06
 	 * @param target
 	 * @param name
@@ -249,7 +249,7 @@ public abstract class ReflectionUtils {
 	/**
 	 * 
 	 * @description	： 循环向上转型, 获取对象的DeclaredMethod,并强制设置为可访问.
-	 * @author 		： <a href="https://github.com/vindell">vindell</a>
+	 * @author 		： <a href="https://github.com/hiwepy">hiwepy</a>
 	 * @date 		：2017年9月12日 下午10:57:57
 	 * @param target
 	 * @param name
@@ -518,7 +518,7 @@ public abstract class ReflectionUtils {
 	/**
 	 * 
 	 * @description	： 判断clazz类是否实现了某个接口
-	 * @author 		： <a href="https://github.com/vindell">vindell</a>
+	 * @author 		： <a href="https://github.com/hiwepy">hiwepy</a>
 	 * @date 		：2017年9月12日 下午10:57:49
 	 * @param clazz
 	 * @param targetInterface
